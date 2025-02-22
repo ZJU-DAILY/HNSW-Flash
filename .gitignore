@@ -1,0 +1,6 @@
+/data/
+/build/
+/bin/
+/statistics/
+/include/core.h.gch
+.DS_Store
