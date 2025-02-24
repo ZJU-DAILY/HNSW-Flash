@@ -26,7 +26,7 @@
 #include <unordered_map>
 #include <vector>
 
-const size_t K = 10;					// top-k knns
+const size_t K = 1;					// top-k knns
 const size_t M = 32;					// neighbor's number, should be times of 16
 const size_t EF_CONSTRUCTION = 1024;		// maximum number of candidate neighbors considered during index construction.
 const size_t EF_SEARCH = 64;			// maximum number of candidates retained during the search phase.
