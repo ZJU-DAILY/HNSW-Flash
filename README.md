@@ -66,7 +66,7 @@ The algorithms automatically check if the index has been generated and saved in 
 The `cohere10k` dataset has been pre-configured to run with all strategies:
 
     make build
-    make run flash sift
+    make run flash cohere10k
 
 For other datasets, you can run the code using the following format:
 

@@ -32,7 +32,7 @@ const size_t EF_CONSTRUCTION = 1024;		// maximum number of candidate neighbors c
 const size_t EF_SEARCH = 64;			// maximum number of candidates retained during the search phase.
 
 const size_t SUBVECTOR_NUM = 16;		// PQ subvector num, should be times of 16 when using Flash
-size_t SUBVECTOR_LENGTH = 8; 			// PQ subvector length/dimension
+size_t SUBVECTOR_LENGTH = 4; 			// PQ subvector length/dimension
 const size_t CLUSTER_NUM = 16;			// cluster numbers of each subvector
 const size_t MAX_ITERATIONS = 12;		// k-means iteration times
 const size_t SAMPLE_NUM = 100000;			// sample number in generating codebooks

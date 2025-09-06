@@ -15,6 +15,7 @@ public:
         ef_construction_ = EF_CONSTRUCTION;
         ef_search_ = EF_SEARCH;
         K_ = K;
+        org_dim_ = data_dim_;
 
         codebooks_path_ = codebooks_path;
         index_path_ = index_path;
@@ -39,7 +40,7 @@ public:
 
         // Calculate recall
         int hit = 0;
-        size_t dim = data_dim_;
+        size_t dim = org_dim_;
         for (int i = 0; i < query_num_; ++i) {
             auto& knn = knn_results_[i];
             // auto& truth_knn = gt_set[i];
@@ -71,13 +72,16 @@ public:
 protected:
     // data
     std::vector<std::vector<float>> data_set_;
+    std::vector<std::vector<float>> org_data_set_;
     uint32_t data_num_;
     uint32_t data_dim_;
+    uint32_t org_dim_;
     size_t M_;
     size_t ef_construction_;
 
     // query
     std::vector<std::vector<float>> query_set_;
+    std::vector<std::vector<float>> org_query_set_;
     uint32_t query_num_;
     uint32_t query_dim_;
     size_t ef_search_;
