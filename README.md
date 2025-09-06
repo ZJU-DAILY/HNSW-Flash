@@ -14,7 +14,7 @@ Below are the datasets mentioned in the paper:
 
 | Datasets                                                                                                    | Data Volume   | Size (GB) | Dim.  | Query Volume |
 | ----------------------------------------------------------------------------------------------------------- | ------------- | --------- | ----- | ------------ |
-| SIFT (for test) [(link)](http://corpus-texmex.irisa.fr/)                                                    | 1,000,000     | 0.157     | 128   | 10,000       |
+| cohere10k (for test) [(link)](data/cohere10k)                                                    | 10,000     | 0.029     | 768   | 100       |
 | ARGILLA [(link)](https://huggingface.co/datasets/argilla-warehouse/personahub-fineweb-edu-4-embeddings)     | 21,071,228    | 81        | 1,024 | 100,000      |
 | ANTON [(link)](https://huggingface.co/datasets/anton-l/wiki-embed-mxbai-embed-large-v1)                     | 19,399,177    | 75        | 1,024 | 100,000      |
 | LAION [(link)](https://sisap-challenges.github.io/2024/datasets/)                                           | 100,000,000   | 293       | 768   | 100,000      |
@@ -24,14 +24,14 @@ Below are the datasets mentioned in the paper:
 | BIGCODE [(link)](https://huggingface.co/datasets/bigcode/stack-exchange-embeddings-20230914)                | 10,404,628    | 30        | 768   | 100,000      |
 | SSNPP [(link)](https://big-ann-benchmarks.com/neurips21.html)                                               | 1,000,000,000 | 960       | 256   | 100,000      |
 
-The following is an example of the file organization for the `SIFT` dataset:
+The following is an example of the file organization for the `cohere10k` dataset:
 
     HNSW_Flash
     ├─data
-    │  ├─sift
-    │  │  ├─sift_base.fvecs
-    │  │  ├─sift_query.fvecs
-    │  │  └─sift_groundtruth.ivecs
+    │  ├─cohere10k
+    │  │  ├─cohere10k_base.fvecs
+    │  │  ├─cohere10k_query.fvecs
+    │  │  └─cohere10k_groundtruth.ivecs
     │  ├─...
 
 ### Strategies
@@ -63,7 +63,7 @@ Below are the strategies implemented in this repository. The strategy names are 
 
 The algorithms automatically check if the index has been generated and saved in the file system. if not, they will generate and save the index before running the query; otherwise, they will load the existing index file and run the query.
 
-The `SIFT` dataset has been pre-configured to run with all strategies:
+The `cohere10k` dataset has been pre-configured to run with all strategies:
 
     make build
     make run flash sift
