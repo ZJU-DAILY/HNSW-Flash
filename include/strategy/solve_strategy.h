@@ -15,6 +15,8 @@ public:
         ef_construction_ = EF_CONSTRUCTION;
         ef_search_ = EF_SEARCH;
         K_ = K;
+        org_data_set_ = data_set_;
+        org_query_set_ = query_set_;
         org_dim_ = data_dim_;
 
         codebooks_path_ = codebooks_path;
@@ -49,7 +51,7 @@ public:
             // fetch the top-K ground truth
             std::vector<std::pair<float, uint32_t>> knn_with_dist;
             for (auto gt : gt_set[i]) {
-                knn_with_dist.emplace_back(std::make_pair(hnswlib::L2Sqr(query_set_[i].data(), data_set_[gt].data(), &dim), gt));
+                knn_with_dist.emplace_back(std::make_pair(hnswlib::L2Sqr(org_query_set_[i].data(), org_data_set_[gt].data(), &dim), gt));
             }
             sort(knn_with_dist.begin(), knn_with_dist.end());
             truth_knn.clear();

@@ -101,10 +101,26 @@ public:
 
         auto s_solve = std::chrono::system_clock::now();
         hnsw.fstdistfunc_ = hnswlib::PqAdcL2Sqr;
-        hnsw.setEf(this->ef_search_);
+        hnsw.setEf(EF_SEARCH);
         #pragma omp parallel for schedule(dynamic)
         for (size_t i = 0; i < this->query_num_; ++i) {
-            std::priority_queue<std::pair<float, hnswlib::labeltype>> result = hnsw.searchKnn(this->query_set_[i].data(), K);
+#if defined(RERANK)
+            std::priority_queue<std::pair<float, hnswlib::labeltype>> tmp = hnsw.searchKnn(query_set_[i].data(), K * 100);
+            std::priority_queue<std::pair<float, hnswlib::labeltype>, std::vector<std::pair<float, hnswlib::labeltype>>, std::greater<>> result;
+
+            while (!tmp.empty()) {
+                float res = 0;
+                size_t a = tmp.top().second;
+                for (int j = 0; j < org_dim_; ++j) {
+                    float t = org_data_set_[a][j] - org_query_set_[i][j];
+                    res += t * t;
+                }
+                result.emplace(res, a);
+                tmp.pop();
+            }
+#else
+            std::priority_queue<std::pair<float, hnswlib::labeltype>> result = hnsw.searchKnn(query_set_[i].data(), K);
+#endif
             while (!result.empty() && this->knn_results_[i].size() < K) {
                 this->knn_results_[i].emplace_back(result.top().second);
                 result.pop();

@@ -86,7 +86,6 @@ public:
             }
             
             // data_set_ = pcaEncode(data_set_);
-            org_data_set_ = data_set_;
             data_dim_ = PRINCIPAL_DIM;
 #endif
             auto& codebooks = hnswlib::flash_codebooks_;
@@ -105,7 +104,6 @@ public:
             // Generate the PCA matrix and encode the data to reduce the dimension to PRINCIPAL_DIM
             auto s_encode_data_pca = std::chrono::system_clock::now();
             generate_matrix(data_set_, sample_num_);
-            org_data_set_ = data_set_;
             pcaEncode(data_set_);
             data_dim_ = PRINCIPAL_DIM;
             auto e_encode_data_pca = std::chrono::system_clock::now();
@@ -180,7 +178,6 @@ public:
         hnswlib::init_ratio();
 #endif
 #if defined(USE_PCA)
-        org_query_set_ = query_set_;
         pcaEncode(query_set_);
 #endif
         hnsw->setEf(EF_SEARCH);

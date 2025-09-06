@@ -49,7 +49,7 @@ public:
         }
         // search 
         auto s_solve = std::chrono::system_clock::now();
-        taumg.setEf(50);
+        taumg.setEf(EF_SEARCH);
 #pragma omp parallel for schedule(dynamic) num_threads(NUM_THREADS)
         for (size_t i = 0; i < query_num_; ++i) {
             std::priority_queue<std::pair<float, hnswlib::labeltype>> result = taumg.searchKnn(query_set_[i].data(), K);

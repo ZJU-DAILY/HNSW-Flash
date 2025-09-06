@@ -86,7 +86,7 @@ public:
                 principal_components = tmp2;
             }
             
-            pcaEncode(data_set_);
+            // pcaEncode(data_set_);
             data_dim_ = PRINCIPAL_DIM;
 #endif
             auto& codebooks = hnswlib::flash_codebooks_;
@@ -194,7 +194,7 @@ public:
 #if defined(USE_PCA)
         pcaEncode(query_set_);
 #endif
-        taumg->setEf(50);
+        taumg->setEf(EF_SEARCH);
 #pragma omp parallel for schedule(dynamic) num_threads(NUM_THREADS)
         for (size_t i = 0; i < query_num_; ++i) {
             // Encode query with PQ
@@ -203,14 +203,14 @@ public:
 
             // search
 #if defined(RERANK)
-            std::priority_queue<std::pair<data_t, hnswlib::labeltype>> tmp = taumg->searchKnn(encoded_query, K << 1);
+            std::priority_queue<std::pair<data_t, hnswlib::labeltype>> tmp = taumg->searchKnn(encoded_query, K * 100);
             std::priority_queue<std::pair<float, hnswlib::labeltype>, std::vector<std::pair<float, hnswlib::labeltype>>, std::greater<>> result;
 
             while (!tmp.empty()) {
                 float res = 0;
                 size_t a = tmp.top().second;
-                for (int j = 0; j < data_dim_; ++j) {
-                    float t = data_set_[a][j] - query_set_[i][j];
+                for (int j = 0; j < org_dim_; ++j) {
+                    float t = org_data_set_[a][j] - org_query_set_[i][j];
                     res += t * t;
                 }
                 result.emplace(res, a);

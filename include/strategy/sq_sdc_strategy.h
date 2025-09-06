@@ -63,7 +63,23 @@ public:
         hnsw.setEf(ef_search_);
         #pragma omp parallel for schedule(dynamic)
         for (uint32_t i = 0; i < query_num_; ++i) {
+#if defined(RERANK)
+            std::priority_queue<std::pair<float, hnswlib::labeltype>> tmp = hnsw.searchKnn(encoded_query[i].data(), K * 100);
+            std::priority_queue<std::pair<float, hnswlib::labeltype>, std::vector<std::pair<float, hnswlib::labeltype>>, std::greater<>> result;
+
+            while (!tmp.empty()) {
+                float res = 0;
+                size_t a = tmp.top().second;
+                for (int j = 0; j < data_dim_; ++j) {
+                    float t = org_data_set_[a][j] - org_query_set_[i][j];
+                    res += t * t;
+                }
+                result.emplace(res, a);
+                tmp.pop();
+            }
+#else
             std::priority_queue<std::pair<float, hnswlib::labeltype>> result = hnsw.searchKnn(encoded_query[i].data(), K);
+#endif
             while (!result.empty() && knn_results_[i].size() < K) {
                 knn_results_[i].emplace_back(result.top().second);
                 result.pop();
