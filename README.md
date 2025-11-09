@@ -1,4 +1,4 @@
-# HNSW-Falsh-branch-pure-SSE
+# HNSW-Flash-branch-pure-SSE
 
 This branch implements the core FLASH workflow with cleaner and more concise code. Currently, it only supports SSE optimization, making the logic straightforward and easy to follow.
 
