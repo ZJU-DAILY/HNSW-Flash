@@ -1,3 +1,13 @@
+# HNSW-Falsh-branch-pure-SSE
+
+This branch implements the core FLASH workflow with cleaner and more concise code. Currently, it only supports SSE optimization, making the logic straightforward and easy to follow.
+
+The branch also refines variable layouts and function calls, so that flash_strategy.h, hnswalg_flash.h, and space_flash.h together cover the entire FLASH functionality, making integration into other frameworks more convenient.
+
+Additionally, the SQ distance computation has been improved: while the PQ distance table is still compressed as uint8_t, the computed results are stored in uint32_t, reducing precision loss that could negatively affect recall. SSE-related functions have been updated accordingly to accommodate this change.
+
+*Did not implement save/load index.
+
 # HNSW-Flash
 
 This repository contains the code for the paper **Accelerating Graph Indexing for ANNS on Modern CPUs**.
